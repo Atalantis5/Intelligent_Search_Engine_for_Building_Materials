@@ -268,6 +268,12 @@ class inventory_manager:
                         "入库时间": f"{current_time}",
                     })
             steel_database[trademark]['库存数据']["最近盘点时间"] = str(current_time)
+            print("更新成功")
+        elif operation == 'OUT':
+            steel_database[trademark]['库存数据']["总库存(吨)"] -= quantity
+            steel_database[trademark]['库存数据']["最近盘点时间"] = str(current_time)
+        else:
+            print('ERROR INPUT')
 # 安全库存警告
     def inventory_warning(self):
         return [
@@ -305,7 +311,11 @@ elif identify == "B":
         print(inventory_manager.inventory_check(mark_input, stash_input))
     # 功能：库存更新
     elif function == "B":
-        pass
+        original_data = input('''请输入更新信息：{牌号}{仓库}{操作}{数量}{规格}
+            操作：IN or OUT''')
+        trademark_input,stash_input , operation_input,quantity_input,type_input = original_data.split()
+        quantity_input = float(quantity_input)
+        inventory_manager.inventory_update(trademark_input,stash_input,operation_input,quantity_input,type_input)
     # 功能：库存检查
     elif function == "C":
         # 拷贝列表
